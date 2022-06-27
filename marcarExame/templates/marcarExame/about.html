@@ -1,0 +1,127 @@
+{% extends "./dash.html" %}
+{% load static %}
+
+{% block title %}
+    <title>About</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="info">
+        <h1>About</h1>
+        <br/>
+    </div>
+
+    <div class="info">
+        <form action="{% url 'marcarExame:about' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <img id="profile" src="{{ uploaded_file_url }}?v={{ uploaded_file_url }}" height=300px width=300px"
+                 alt="profile picture" style="margin-bottom: 20px; cursor: pointer;" onclick="changeImage('input_img')">
+            {% if not request.user.is_superuser %}
+                <div id="input_img" style="display: block">
+                    <input type="file" class="form-control" id="input_img2" name="img">
+                </div>
+            {% endif %}
+            <br/><br/>
+            <div style="text-align: left">
+                <div>
+                    <label for="username">Username</label>
+                    <input id="username" class="form-control editField"
+                           value="{{ request.user.username }} " readonly/> <br/>
+                </div>
+                <div>
+                    <label style="display:inline-block" for="email">Email</label>
+                    <button type="button" onclick="editField('email')"
+                            style="vertical-align:middle; all: unset; cursor: pointer;">
+                        <img src="{% static 'marcarExame/images/edit_icon.png' %}" style="width: 13px"/>
+                    </button>
+                    <input type="email" id="email" class="form-control editField"
+                           value="{{ request.user.email }}" name="email" readonly/> <br/>
+                </div>
+                <div>
+                    <label for="name" style="display:inline-block">Name</label>
+                    <button type="button" onclick="editField('first_name')"
+                            style="vertical-align:middle; all: unset; cursor: pointer;">
+                        <img src="{% static 'marcarExame/images/edit_icon.png' %}" style="width: 13px"/>
+                    </button>
+                    <input id="first_name" class="form-control editField" name="first_name"
+                           value="{{ request.user.first_name }}" readonly/> <br/>
+                </div>
+                <div>
+                    <label for="last_name">Surname</label>
+                    <button type="button" onclick="editField('last_name')"
+                            style="vertical-align:middle; all: unset; cursor: pointer;">
+                        <img src="{% static 'marcarExame/images/edit_icon.png' %}" style="width: 13px"/>
+                    </button>
+                    <input id="last_name" class="form-control editField" name="last_name"
+                           value="{{ request.user.last_name }}" readonly/> <br/>
+                </div>
+                {% if not request.user.is_superuser %}
+                    <div>
+                        <label for="phone">Phone Number</label>
+                        <button type="button" onclick="editField('phone')"
+                                style="vertical-align:middle; all: unset; cursor: pointer;">
+                            <img src="{% static 'marcarExame/images/edit_icon.png' %}" style="width: 13px"/>
+                        </button>
+                        <input id="phone" class="form-control editField" value="{{ phone }}" name="phone" readonly/>
+                        <br/>
+                    </div>
+                    <div>
+                        <label for="address">Street Address</label>
+                        <button type="button" onclick="editField('address')"
+                                style="vertical-align:middle; all: unset; cursor: pointer;">
+                            <img src="{% static 'marcarExame/images/edit_icon.png' %}" style="width: 13px"/>
+                        </button>
+                        <input id="address" class="form-control editField" value="{{ address }}" name="address"
+                               readonly/>
+                        <br/>
+                    </div>
+                    <div>
+                        <label for="bday">Birth Date</label>
+                        <input id="bday" class="form-control editField" value="{{ birth_date }}" readonly/> <br/>
+                    </div>
+                    {% if isMedic %}
+                        <div>
+                            <label for="clinic">Clinic</label>
+                            <input id="clinic" class="form-control editField" value="{{ clinic }}" readonly/>
+                            <br/>
+                        </div>
+                        <div>
+                            <label for="district">District</label>
+                            <input id="district" class="form-control editField" value="{{ district }}" readonly/>
+                            <br/>
+                        </div>
+                        <div>
+                            <label for="medicNum">Medic Number</label>
+                            <input id="medicNum" class="form-control editField" value="{{ medicNum }}" readonly/>
+                            <br/>
+                        </div>
+                    {% else %}
+                        <div>
+                            <label for="nhs">NHS Number</label>
+                            <input id="nhs" class="form-control editField" value="{{ nhs }}" readonly/>
+                            <br/>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                <div>
+                    <label for="current_password">Old Password</label>
+                    <input type="password" id="current_password" class="form-control editField" name="current_password"
+                           readonly/> <br/>
+                </div>
+                <div>
+                    <label for="password">New password</label>
+                    <button type="button" onclick="editField('password'), editField('current_password')"
+                            style="vertical-align:middle; all: unset; cursor: pointer;">
+                        <img src="{% static 'marcarExame/images/edit_icon.png' %}" style="width: 13px"/>
+                    </button>
+                    <input type="password" id="password" class="form-control editField" name="password" readonly/> <br/>
+                </div>
+            </div>
+            <button style="margin-bottom:20px" type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+
+{% endblock %}
+
+

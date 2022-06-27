@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    {% block title %}
+        <title>DashBoard</title>
+    {% endblock %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'marcarExame/css/dash/style.css' %}">
+    <link rel="stylesheet" href="{% static 'marcarExame/css/review.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="{% static 'marcarExame/css/myScripts.js' %}"></script>
+
+    <link rel="icon" type="image/x-icon" href="{% static 'marcarExame/images/favicon.png' %}">
+
+    <style>
+        body, h1, h2, h3, h4, h5, h6 {
+            font-family: "Raleway", sans-serif
+        }
+    </style>
+</head>
+
+
+<body class="w3-light-grey w3-content" style="max-width:1600px">
+
+{% block sidebar %}
+    <!-- Sidebar/menu -->
+
+    <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+        <div class="w3-container">
+            <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey"
+               title="close menu">
+                <i class="fa fa-remove"></i>
+            </a>
+            <img src="{{ uploaded_file_url }}?v={{ uploaded_file_url }}" height="150px" width="150px" style="object-fit: cover;" class="w3-round"
+                 alt="User Image"><br><br>
+            <h4><b>Welcome  {% if request.user.is_superuser %}  {{ request.user.username }} {% else %}
+                {{ request.user.first_name }}{% endif %}</b></h4>
+
+        </div>
+        <div class="w3-bar-block">
+            <a href="{% url 'marcarExame:about' %}" id="about" onclick="highlight(this)"
+               class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>About</a>
+
+            {% if request.user.is_superuser %}
+                <a href="{% url 'marcarExame:registerMedic' %}" id="register_medic" onclick="highlight(this)"
+                   class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>Register
+                    Medic</a>
+            {% endif %}
+
+            <!-- TODO criar isClient -> solucao temporaria -->
+            {% if isMedic %}
+            <a href="{% url 'marcarExame:createAppointments' %}" id="schedule_appointments" onclick="highlight(this)"
+                class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>
+                Create Appointments</a>
+            <a href="{% url 'marcarExame:pastAppointments' %}" id="past_appointments" onclick="highlight(this)"
+                class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>
+                Past Appointments</a>
+            <a href="{% url 'marcarExame:futureAppointments' %}" id="future_appointments" onclick="highlight(this)"
+                class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>
+                Future Appointments</a>
+            <a href="{% url 'marcarExame:myAvailability' %}" id="my_availability'" onclick="highlight(this)"
+                class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>
+                My Availability</a>
+            {% endif %}
+            {% if isClient %}
+            <a href="{% url 'marcarExame:scheduleAppointments' %}" id="create_appointments" onclick="highlight(this)"
+                class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>
+                Schedule Appointments</a>
+            <a href="{% url 'marcarExame:myAppointments' %}" id="my_appointments" onclick="highlight(this)"
+                class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>
+                My Appointments</a>
+            <a href="{% url 'marcarExame:reviews' %}" id="reviews" onclick="highlight(this)"
+                class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>
+                Review</a>
+            {% endif %}
+
+
+
+            <a href="{% url 'marcarExame:logout_user' %}" class="w3-bar-item w3-button w3-padding"><i></i>LOGOUT</a>
+        </div>
+    </nav>
+
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+         title="close side menu" id="myOverlay"></div>
+
+{% endblock %}
+
+{% block feedback %}
+
+    {% if messages %}
+        <div id="ErrorMessages" style="margin-right:800px; margin-left:340px; margin-top:20px">
+            <ul>
+                {% for message in messages %}
+                    <li id="errorAlert" style="text-align:center ;list-style: none ; font-weight: bold"
+                            {% if message.tags == "error" %} class="alert alert-danger" {% endif %}
+                            {% if message.tags == "success" %} class="alert alert-success" {% endif %}>
+                        {{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px">
+
+    <!-- First Photo Grid-->
+    <div id="aboutBlock" class="w3-row-padding">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </div>
+</div>
+
+
+<!-- End page content -->
+
+</body>
+</html>

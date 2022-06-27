@@ -1,0 +1,32 @@
+Admin: 
+
+username: admin
+pass: admin
+
+Clientes:
+
+username: dmsco
+pass: dmsco
+
+username: prfco
+pass: prfco
+
+username: gachs
+pass: gachs
+
+Medicos:
+
+username: medicoA
+pass: medico
+
+username: medicoB
+pass: medico
+
+username: medicoC
+pass: medico
+
+username: medicoD
+pass: medico
+
+
+

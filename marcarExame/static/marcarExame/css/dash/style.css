@@ -1,0 +1,15 @@
+.info {
+    text-align: center;
+    margin-top: 15px;
+}
+
+#profile {
+    object-fit: cover;
+    border: 5px solid #555;
+}
+
+.userInfo{
+    text-align: left;
+    float: left;
+    margin-top: 20px;
+}

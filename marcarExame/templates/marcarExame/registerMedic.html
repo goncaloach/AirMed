@@ -1,0 +1,103 @@
+{% extends "./dash.html" %}
+
+{% block title %}
+    <title>Register Medic</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="info">
+        <h1>Register Medic</h1>
+        <br/>
+    </div>
+
+    <div class="container">
+        <form class="form-horizontal" action="{% url 'marcarExame:registerMedic' %}" method="post"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="username">Username:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="username" placeholder="Enter username" name="username" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="first_name">First Name:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="first_name" placeholder="Enter first name" name="first_name"
+                           required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="last_name">Last Name:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="last_name" placeholder="Enter last name" name="last_name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="birth_date">Birth Date:</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" id="birth_date"
+                           name="birth_date"
+                           required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="email">Email:</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="phone">Phone Number:</label>
+                <div class="col-sm-10">
+                    <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{9}"
+                           placeholder="912345678" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="address">Street Address:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="address" placeholder="Enter address" name="address"
+                           required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="medicNum">Medic Number:</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="medicNum" placeholder="Enter Medic number"
+                           name="medicNum" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="clinic">Clinic:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="clinic" placeholder="Enter Clinic"
+                           name="clinic" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="district">District:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="district" placeholder="Enter District"
+                           name="district" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="id_img">Profile Photo:</label>
+                <div class="col-sm-10">
+                    <input type="file" class="form-control" id="id_img" name="img" required>
+                </div>
+            </div>
+            <br/><br/><br/>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+{% endblock %}

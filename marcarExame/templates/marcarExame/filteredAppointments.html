@@ -1,0 +1,51 @@
+{% extends "./scheduleAppointments.html" %}
+
+{% block title %}
+    <title>Join Appointment</title>
+{% endblock %}
+
+{% block filtro %}
+
+
+    <ul style="padding:0;margin-left:-15px;margin-top:50px;list-style-type: none;">
+        <h2>Results:</h2>
+        <br/>
+        {% for medic in medic_list %}
+            <li>
+                {% for user in user_list %}
+                {% if user.medico == medic %}
+                <img src="static/media/{{user.username}}.png" style="width: 50px"/>
+                <button onclick="showAppointments({{ medic.id }})" type="button" class="btn btn-primary">
+                    {{ medic }}
+                </button>
+                {% endif %}
+                {% endfor %}
+                <br/>
+                <div id="medic_appointments{{ medic.id }}" style="display:none">
+                    <ul style="padding:0;margin-left:15px;margin-top:20px;list-style-type: none">
+                        {% for appointment in appointments_list %}
+                            {% if appointment.idMedico == medic %}
+                                <li>
+                                    <button style="pointer-events: none;" type="button" class="btn btn-secondary">
+                                        Exam: {{ appointment.tipoExame }};
+                                        Date: {{ appointment.dataHoraInicio }}-{{ appointment.dataHoraFim }}
+                                    </button>
+                                    <a href="{% url 'marcarExame:joinAppointment' appointment.id %}"
+                                       style="margin-left:5px" appointment_id="{{ appointment.id }}"
+                                       class="btn btn-success">
+                                        Schedule <a/>
+                                        <br/><br/>
+                                </li>
+                            {% endif %}
+
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </li>
+
+            <br/>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

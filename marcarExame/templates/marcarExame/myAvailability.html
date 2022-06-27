@@ -1,0 +1,55 @@
+{% extends "./dash.html" %}
+
+{% block title %}
+    <title>My Availability</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="info">
+        <h1>My Availability</h1>
+        <br/>
+    </div>
+
+    <div class="container" style="margin-top:20px">
+        <form class="form-horizontal" method="post" action="{% url 'marcarExame:myAvailability' %}"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="control-label" for="start_date">Start Date:</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="end_date">End Date:</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Exam Type:</label>
+                <input class="form-control" id="exam_type" placeholder="X-Ray, MRI, CAT, ECO" name="exam_type" required>
+                <br/>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        <ul style="margin-top:40px;list-style-type: none;margin-left:-55px;">
+            <h2>Results</h2>
+            <br/>
+            {% for appointment in appointments_list %}
+                <li>
+
+                    <button style="pointer-events: none;" appointment_id="{{ appointment.id }}" type="button"
+                            class="btn btn-secondary">
+                        Exam: {{ appointment.tipoExame }};
+                        Date: {{ appointment.dataHoraInicio }}-{{ appointment.dataHoraFim }}
+                    </button>
+                    <a href="{% url 'marcarExame:removeAppointment' appointment.id %}" style="margin-left:5px"
+                       appointment_id="{{ appointment.id }}" class="btn btn-danger">
+                        Cancel <a/>
+                </li>
+                <br/>
+            {% endfor %}
+        </ul>
+
+    </div>
+
+{% endblock %}  
